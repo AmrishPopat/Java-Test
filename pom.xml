@@ -13,14 +13,15 @@
 	<groupId>com.penguin.amrishpopat</groupId>
 	<artifactId>javaTest</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
-	<name>javaTest</name>
-	<description>Java Test project for Spring Boot</description>
+	<packaging>jar</packaging>
+	<name>Penguin Test</name>
+	<description>Penguin Test project</description>
 
 	<properties>
 		<java.version>1.8</java.version>
 		<junit-jupiter.version>5.5.2</junit-jupiter.version>
     	<junit-platform.version>1.5.2</junit-platform.version>
+    	<start-class>com.penguin.amrishpopat.javaTest.PenguinTest</start-class>
 	</properties>
 
 	<dependencies>
@@ -100,14 +101,55 @@
 		    <scope>test</scope>
 		</dependency> 
 	</dependencies>
-
 	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-		</plugins>
+	    <resources>
+	      	<resource>
+	        	<directory>src/main/webapp</directory>
+	      	</resource>
+	      	<resource>
+	        	<directory>src/main/resources</directory>
+	      	</resource>	      	
+	    </resources>	
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <fork>true</fork>
+                    <mainClass>${start-class}</mainClass>
+                </configuration>
+                  <executions>
+                    <execution>
+                      <goals>
+                        <goal>repackage</goal>
+                      </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+              <artifactId>maven-assembly-plugin</artifactId>
+              <version>2.2-beta-5</version>
+              <configuration>
+                <archive>
+                  <manifest>
+                    <addClasspath>true</addClasspath>
+                    <mainClass>com.penguin.amrishpopat.javaTest.PenguinTest</mainClass>
+                  </manifest>
+                </archive>
+                <descriptorRefs>
+                  <descriptorRef>jar-with-dependencies</descriptorRef>
+                </descriptorRefs>
+              </configuration>
+              <executions>
+                <execution>
+                  <id>assemble-all</id>
+                  <phase>package</phase>
+                  <goals>
+                    <goal>single</goal>
+                  </goals>
+                </execution>
+              </executions>
+            </plugin>
+        </plugins>
 	</build>
-
 </project>

@@ -26,10 +26,5 @@ public class BookController {
     	}
     	return "books"; 
     }
-    
-    @GetMapping("/index")
-    public String getExample(){
-        return "index.html";
-    }
 }
 

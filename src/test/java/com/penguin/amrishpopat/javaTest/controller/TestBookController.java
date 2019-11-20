@@ -41,7 +41,7 @@ public class TestBookController {
 			.andDo(print())
 			.andExpect(status().isOk())
 			.andExpect(view().name("books"))
-			.andExpect(forwardedUrl("/WEB-INF/jsp/books.jsp"))
+			.andExpect(forwardedUrl("/view/books.jsp"))
 			.andExpect(model().size(0));
 	}	 
 
@@ -53,7 +53,7 @@ public class TestBookController {
 			.andDo(print())
 			.andExpect(status().isOk())
 			.andExpect(view().name("books"))
-			.andExpect(forwardedUrl("/WEB-INF/jsp/books.jsp"))
+			.andExpect(forwardedUrl("/view/books.jsp"))
 			.andExpect(model().attribute("book", hasProperty("id", is("11"))))
 			.andExpect(model().attribute("book", hasProperty("author", is("John Keats"))))
 			.andExpect(model().attribute("book", hasProperty("title", is("Selected Poems: Keats"))))
