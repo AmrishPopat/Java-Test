@@ -33,9 +33,6 @@ public class BookDAO {
         try (Reader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
             
         	Book[] booksArray = gson.fromJson(reader, Book[].class);
-            Arrays.stream(booksArray).forEach( e -> {
-                System.out.println("Each line" + e);
-            });
             List<Book> books = Arrays.asList(booksArray);
             return books;
             

@@ -1,5 +1,9 @@
 package com.penguin.amrishpopat.javaTest.validator;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -12,12 +16,39 @@ import com.penguin.amrishpopat.javaTest.model.Book;
 @Component
 public class BookDataValidator {
 
-	public static Optional<Book> validate(Optional<Book> book) {
-		if (hasNullItems(book.get())) {
+	public static Optional<Book> validate(Book book) {
+		if (hasNullItems(book) || brokenLink(book)) {
 			return Optional.empty();
 		} else {
-			return Optional.of(makeSecure(book.get()));
+			return Optional.of(makeSecure(book));
 		}
+	}
+	
+	private static boolean brokenLink(Book bookItem) {
+        try {
+        	HttpURLConnection huc = null;
+        	int respCode = 200;
+        	
+            huc = (HttpURLConnection)(new URL(bookItem.getUrl()).openConnection());
+            
+            huc.setRequestMethod("HEAD");
+            
+            huc.connect();
+            
+            respCode = huc.getResponseCode();
+            
+            if(respCode < 300 && respCode >=200 ){
+                return false;
+            }
+                
+        } catch (MalformedURLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }		
+		return true;
 	}
 
 	private static Book makeSecure(Book bookItem) {
@@ -32,7 +63,6 @@ public class BookDataValidator {
 
 	private static String removeScriptContent(String html) {
 		if (html != null) {
-			//System.out.println("Current Value: "+ html);
 			String re = "(<script>.*?</script>)";
 
 			Pattern pattern = Pattern.compile(re);

@@ -20,7 +20,7 @@ public class BookController {
 
     @GetMapping("/books/{id}")
     public String getBookById(@PathVariable String id, ModelMap model) {
-    	final Optional<Book> book = bookService.bookByID(id);
+    	final Optional<Book> book = bookService.bookById(id);
     	if(book.isPresent()) {
     		model.addAttribute("book", book.get());
     	}

@@ -17,16 +17,14 @@ public class BookService {
 
 	@Autowired
 	private BookDAO bookDAO;
-	//@Autowired
-	//private BookDataValidator bookDataValidator;
     
-    public Optional<Book> bookByID(String id) throws NullPointerException {
+    public Optional<Book> bookById(String id) throws NullPointerException {
 
     	Optional<Book> bookById; 
     	books = bookDAO.readJson();
     	bookById = books.stream().filter(t -> t.getId().equals(id)).findFirst();
     	if (bookById.isPresent()) {
-    		return BookDataValidator.validate(bookById);
+    		return BookDataValidator.validate(bookById.get());
     	}
     	else {
     		return bookById;
